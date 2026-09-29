@@ -1,0 +1,38 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-municode",
+                "-mwindows",
+                "-O2",
+                "-Wall",
+                "-static",
+                "src/main.cpp",
+                "src/serial_port.cpp",
+                "-o",
+                "SerialPortAssistant.exe",
+                "-lcomctl32",
+                "-ladvapi32"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

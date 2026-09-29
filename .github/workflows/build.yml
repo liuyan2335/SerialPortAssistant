@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 MinGW-w64 (GCC)
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc
+
+      - name: 编译
+        shell: msys2 {0}
+        run: |
+          g++ -std=c++17 -municode -mwindows -O2 -Wall -static \
+              src/main.cpp src/serial_port.cpp \
+              -o SerialPortAssistant.exe \
+              -lcomctl32 -ladvapi32
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: SerialPortAssistant-win64
+          path: SerialPortAssistant.exe
